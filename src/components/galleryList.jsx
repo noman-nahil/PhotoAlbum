@@ -51,6 +51,29 @@ const Pictures = () => {
     return selectedItems.includes(itemId);
   };
 
+  const handleDragStart = (e, id) => {
+    e.dataTransfer.setData("text/plain", id.toString());
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e, targetId) => {
+    e.preventDefault();
+    const draggedId = Number(e.dataTransfer.getData("text/plain"));
+    const updatedItems = [...items];
+
+    const draggedItem = updatedItems.find((item) => item.id === draggedId);
+    const targetIndex = updatedItems.findIndex((item) => item.id === targetId);
+
+    if (draggedItem && targetIndex !== -1) {
+      updatedItems.splice(updatedItems.indexOf(draggedItem), 1);
+      updatedItems.splice(targetIndex, 0, draggedItem);
+      setItems(updatedItems);
+    }
+  };
+
   let galleryList = items.map((item, index) => {
     console.log("tab", index);
     return (
@@ -60,6 +83,10 @@ const Pictures = () => {
         }  ${index === 0 ? "row-span-2 col-span-2" : ""}`}
         onMouseEnter={() => handleMouseMove(item.id)}
         onMouseLeave={handleMouseLeave}
+        draggable
+        onDragStart={(e) => handleDragStart(e, item.id)}
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e, item.id)}
       >
         <div className="">
           <img
@@ -91,8 +118,12 @@ const Pictures = () => {
   });
 
   return (
-    <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-4 mx-20">
-      {galleryList}
+    <div>
+      <h1 className="">Gallery</h1>
+
+      <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-4 mx-20">
+        {galleryList}
+      </div>
     </div>
   );
 };
