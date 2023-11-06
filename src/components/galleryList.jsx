@@ -126,16 +126,16 @@ const Pictures = () => {
 
   return (
     <div>
-      <div className="flex border-b-2">
-        <h1 className="pl-5 text-bold">
+      <div className="flex border-b-2 mb-6">
+        <p className="pl-16 m-3 font-bold font-sans">
           {selectedItems.length !== 0
             ? `${selectedItems.length}  ${
                 selectedItems.length == 1 ? "File" : "Files"
               } Selected`
             : "Gallery"}
-        </h1>
+        </p>
         <button
-          className="ml-auto mr-5 text-red-700"
+          className="ml-auto mr-5 text-red-700 font-bold"
           onClick={handleDeleteSelected}
         >
           {selectedItems.length !== 0
