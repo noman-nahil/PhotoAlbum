@@ -73,6 +73,13 @@ const Pictures = () => {
       setItems(updatedItems);
     }
   };
+  const handleDeleteSelected = () => {
+    const updatedItems = items.filter(
+      (item) => !selectedItems.includes(item.id)
+    );
+    setItems(updatedItems);
+    setSelectedItems([]);
+  };
 
   let galleryList = items.map((item, index) => {
     console.log("tab", index);
@@ -119,9 +126,25 @@ const Pictures = () => {
 
   return (
     <div>
-      <h1 className="">Gallery</h1>
+      <div className="flex border-b-2">
+        <h1 className="pl-5 text-bold">
+          {selectedItems.length !== 0
+            ? `${selectedItems.length}  ${
+                selectedItems.length == 1 ? "File" : "Files"
+              } Selected`
+            : "Gallery"}
+        </h1>
+        <button
+          className="ml-auto mr-5 text-red-700"
+          onClick={handleDeleteSelected}
+        >
+          {selectedItems.length !== 0
+            ? ` Delete  ${selectedItems.length == 1 ? "File" : "Files"} `
+            : ""}
+        </button>
+      </div>
 
-      <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-4 mx-20">
+      <div class="grid md:grid-cols-4 lg:grid-cols-5 gap-4 mx-20 mt-2">
         {galleryList}
       </div>
     </div>
